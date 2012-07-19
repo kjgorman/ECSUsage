@@ -215,21 +215,23 @@ class RoomRequest(threading.Thread):
                         #as the default web page data is very feeble, we'll
                         #manually match the username to a real name in our 
                         #users file
+                        #Hmmm... probably not so good to include a list of
+                        #ECS users in the public domain
                         if cntr == 1:
                             usr = re.compile(rowdata[4])
-                            with open("users.txt") as usrs:
+                            #with open("users.txt") as usrs:
                                 #essentially we look for the line that matches
                                 #our username, and we fetch out the next two elements
                                 # which are almost always first name second names.
                                 # As each line is in the format:
                                 # USERNAME FIRST NAME [SUBSEQUENT NAMES]*
-                                for line in usrs:
-                                    if re.match(usr, line): 
-                                        delim = re.compile("[\s+,]")
-                                        tkns = filter(None, delim.split(line))
-                                        if len(tkns) >= 3:
-                                            rowdata.append(tkns[1]+" "+tkns[2])
-                                        break   
+                                #for line in usrs:
+                                #    if re.match(usr, line): 
+                                #        delim = re.compile("[\s+,]")
+                                #        tkns = filter(None, delim.split(line))
+                                #        if len(tkns) >= 3:
+                                #            rowdata.append(tkns[1]+" "+tkns[2])
+                                #        break   
                     if cntr == 0:
                         #If we have no username, then we want to ensure the tuple
                         #is of the correct arity so we don't need to encode corner
