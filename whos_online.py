@@ -19,7 +19,7 @@ filtered = {}
 output = {}
 
 def scrape(uname, passwd):
-    dom = "http://ecs.victoria.ac.nz"
+    dom = "https://ecs.victoria.ac.nz"
     bin = "/cgi-bin/whos-in?location="
     
     # First we log in with the desired username and password combination
@@ -43,9 +43,17 @@ def scrape(uname, passwd):
     # need to append to all our subsequent transactions to get pass the auth-wall
     
     opener =  urllib2.build_opener()
-    opener.addheaders.append(('Cookie', '__utma=189107500.492791804.1338374153.1338706920.1338711352.3; __utmz=189107500.1338374153.1.1.utmccn=(direct)|utmcsr=(direct)|utmcmd=(none); __utmc=189107500;__utmb=189107500; mcs_last_principal=; mcs_last_realm=ECS.VUW.AC.NZ;'+authCookie))
+    opener.addheaders = [('Cookie', 'FOSWIKIPREF=%7CTwistyPlugin_topicattachmentslist1%3D1; __utma=189107500.660830071.1342665800.1349567813.1349578543.19; __utmz=189107500.1349578543.19.6.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=vuw.ac.mnz; FOSWIKISID=150e66e0f304b29d29cc186cd28b607d; ECS130.195.6.218=1349843408%3A1349843408%3Agormankier%3AECS.VUW.AC.NZ%3Agormankier%3A0%3AGzXhhDqp9ZZK58AFm8I1t1CpNxw%3D; mcs_last_principal=gormankier; mcs_last_realm=ECS.VUW.AC.NZ; kerberos=;'+authCookie)]
 
-    
+    opener.addheaders.append(("User-Agent","Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.168 Safari/535.19"))
+    opener.addheaders.append(("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"))
+    opener.addheaders.append(("Host", "ecs.victoria.ac.nz"))
+    opener.addheaders.append(("Referer", "http://ecs.victoria.ac.nz/cgi-bin/whos-in?location=CO236"))
+    opener.addheaders.append(("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.3"))
+    opener.addheaders.append(("Accept-Encoding", "gzip,deflate,sdch"))
+    opener.addheaders.append(("Accept-Language", "en-US,en;q=0.8"))
+    opener.addheaders.append(("Connection", "keep-alive"))
+    print opener.addheaders
     # Next we will want to take a look at the command line arguments for debugging
     # and restricting (or expanding) the room inspection list.
     # Arguments will follow the pattern of:
@@ -118,17 +126,17 @@ def scrape(uname, passwd):
 
 class RoomRequest(threading.Thread):
     
-    def __init__ (self, arg1, arg2, arg3, arg4, arg5):
-        self.room = arg1      # Each of these variables
-        self.debug = arg2     # correspond directly
-        self.opener = arg3    # with their definitions
-        self.dom = arg4       # in the scrape function
-        self.bin = arg5       # should be obvious
+    def __init__ (self, room, debug, opener, domain, cgibin):
+        self.room = room      # Each of these variables
+        self.debug = debug     # correspond directly
+        self.opener = opener   # with their definitions
+        self.dom = domain       # in the scrape function
+        self.bin = cgibin       # should be obvious
         threading.Thread.__init__(self)
     
     # Currently unused debugging method similar to the global def.
     
-    def log(s):
+    def log(self, s):
         if self.debug:
             print s 
 
