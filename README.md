@@ -7,5 +7,3 @@ floor of Cotton building.
 Utilises existing functionality in the form
 of the whos-in cgi-bin page on the ecs network
 so requires ecs authentication.
-
-####*@author*: kieran gorman
